@@ -33,7 +33,15 @@ class Point(BaseModel):
     # organization: str|None
 
 
-#class Event(BaseModel):
+class Event(BaseModel):
+    id: int
+    name: str
+    description: str
+    location: str
+    type: Point_type
+    photo: str
+    reward: int
+    status: Status_type
 
 class User(BaseModel):
     id: int
