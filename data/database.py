@@ -30,6 +30,9 @@ class Database:
     def get_user(self, ID):
         return self.cursor.execute("SELECT * FROM 'Users' WHERE id = ?", (ID,)).fetchmany()[0]
 
+    def get_point(self, ID):
+        return self.cursor.execute("SELECT * FROM 'Points' WHERE id = ?", (ID,)).fetchmany()[0]
+
     def get_points(self): #работает
         return self.cursor.execute("SELECT * FROM 'Points'").fetchmany(1000) #.execute() #fetchmany()
 

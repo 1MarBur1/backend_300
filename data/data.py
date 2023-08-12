@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from datetime import datetime, time
 from enum import Enum
-
+#from utils import parse_organization
 
 class Point_type(Enum):
     shit = 'Грязь и мусор'
@@ -12,7 +12,6 @@ class Point_type(Enum):
     commerce = 'Несанкционированная торговля'
     improvement = 'Нарушение благоустройства'
 
-
 class Point(BaseModel):
     id: int
     name: str
@@ -20,10 +19,23 @@ class Point(BaseModel):
     location: str
     type: Point_type
     photo: str
-    reward: float
+    reward: int
+    #organization: str|None
 
 
 class User(BaseModel):
     id: int
     name: str
     ex: int
+
+    level_points: int
+    residue_points: int
+
+    level_appeals: int
+    residue_appeals: int
+
+    level_cleaning_days: int
+    residue_cleaning_days: int
+
+    level_swaps: int
+    residue_swaps: int

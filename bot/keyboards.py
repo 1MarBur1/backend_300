@@ -10,7 +10,7 @@ from lexicon import lexicon
 #стартовая клавиатура
 app_btn = InlineKeyboardButton(text=lexicon.webapp_button, web_app=WebAppInfo(url='https://notbaryga.github.io/webapp/index.html'))
 point_btn = InlineKeyboardButton(text=lexicon.create_point_button, callback_data='continue_1')
-start_keyboard = InlineKeyboardBuilder().row(app_btn).row(point_btn).as_markup()
+start_keyboard = InlineKeyboardBuilder().row(app_btn).as_markup()
 
 #колбэк клавиатура для 1 шага
 continue_btn = InlineKeyboardButton(text=lexicon.continue_button, callback_data='continue_2')

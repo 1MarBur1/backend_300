@@ -4,6 +4,7 @@ import logging
 from aiogram import Bot, Dispatcher
 from config import Config, load_config
 import handlers
+from data.database import Database
 
 # Инициализируем логгер
 logger = logging.getLogger(__name__)
@@ -14,6 +15,8 @@ config: Config = load_config()
 # Инициализируем бот и диспетчер
 bot: Bot = Bot(token=config.tg_bot.token,
                parse_mode='HTML')
+
+base: Database = Database(config.db.database)
 
 # Функция конфигурирования и запуска бота
 async def main():

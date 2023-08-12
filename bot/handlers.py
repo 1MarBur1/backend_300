@@ -1,11 +1,15 @@
 from aiogram import Router, F
 from aiogram.filters import CommandStart
 from aiogram.types import Message, CallbackQuery, FSInputFile
+from data.database import Database
+from config import Config, load_config
 
 from lexicon import lexicon
 from keyboards import start_keyboard, callback_1_keyboard, callback_2_keyboard, callback_3_keyboard
 
+config: Config = load_config()
 router: Router = Router()
+base = Database(config.db.database)
 
 @router.callback_query()
 async def callback_answer(call: CallbackQuery):
@@ -23,6 +27,7 @@ async def callback_answer(call: CallbackQuery):
 
 @router.message(CommandStart())
 async def start_answer(message: Message):
+    base.add_user(message.from_user.id, message.from_user.first_name)
     await message.answer(text=lexicon.start, reply_markup=start_keyboard)
 
 # @router.message(F.text.lower().contains('about'))
