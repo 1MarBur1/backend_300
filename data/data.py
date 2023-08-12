@@ -12,6 +12,12 @@ class Point_type(Enum):
     commerce = 'Несанкционированная торговля'
     improvement = 'Нарушение благоустройства'
 
+
+class Status_type(Enum):
+    not_watched = 'Не просмотрено'
+    process = 'В процессе решения'
+    done = 'Решено'
+
 class Point(BaseModel):
     id: int
     name: str
@@ -20,6 +26,7 @@ class Point(BaseModel):
     type: Point_type
     photo: str
     reward: int
+    #status: Status_type
     #organization: str|None
 
 
