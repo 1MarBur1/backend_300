@@ -26,7 +26,7 @@ class Point(BaseModel):
     type: Point_type
     photo: str
     reward: int
-    #status: Status_type
+    status: Status_type
     #organization: str|None
 
 

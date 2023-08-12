@@ -24,8 +24,12 @@ class Database:
             except:
                 ...
 
-    def delete_point(self):
-        ...
+    def delete_point(self, ID):
+        with self.connection:
+            try:
+                self.cursor.execute("DELETE FROM 'Points' WHERE id=?", (ID,))
+            except:
+                print("Error deleting user with ID:", ID)
 
     def get_user(self, ID):
         return self.cursor.execute("SELECT * FROM 'Users' WHERE id = ?", (ID,)).fetchmany()[0]
