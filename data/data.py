@@ -1,7 +1,9 @@
 from pydantic import BaseModel
 from datetime import datetime, time
 from enum import Enum
-#from utils import parse_organization
+
+
+# from utils import parse_organization
 
 class Point_type(Enum):
     shit = 'Грязь и мусор'
@@ -18,6 +20,7 @@ class Status_type(Enum):
     process = 'В процессе решения'
     done = 'Решено'
 
+
 class Point(BaseModel):
     id: int
     name: str
@@ -27,8 +30,10 @@ class Point(BaseModel):
     photo: str
     reward: int
     status: Status_type
-    #organization: str|None
+    # organization: str|None
 
+
+#class Event(BaseModel):
 
 class User(BaseModel):
     id: int
