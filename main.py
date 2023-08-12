@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from data.data import User, Point
+from data.data import User, Point, Status_type
 from data.database import Database
 from config import Config, load_config
 from utils import get_user_points_level, get_user_appeals_level, get_user_cleaning_days_level, get_user_swaps
@@ -46,9 +46,16 @@ def delete_point(point: Point):
     except:
         return {"message": "An error occurred while deleting the point"}
 
+@app.post("/update_point_status/")
+def update_point_status(point: Point, status: Status_type):
+    try:
+        base.update_point_status(point.id, status)
+        return {"message": "Point status updated successfully"}
+    except:
+        return {"message": "An error occurred while updating the point status"}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
     #print(base.get_user(3))
-    #base.add_point('прикол! насрали голуби)))', 'прям на стекло... только вчера окна вымыла!!! твари!', '45.64258, 87.53168', 'Разлив нефти', 'https://static.tildacdn.com/tild6665-6130-4161-b766-366665316330/6.jpeg', 15)
+    #base.update_point_status(4, 'В процессе')
     #...

@@ -17,7 +17,7 @@ class Point_type(Enum):
 
 class Status_type(Enum):
     not_watched = 'Не просмотрено'
-    process = 'В процессе решения'
+    process = 'В процессе'
     done = 'Решено'
 
 

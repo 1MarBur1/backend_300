@@ -15,6 +15,9 @@ class Database:
             except:
                 ...
 
+    def get_user(self, ID):
+        return self.cursor.execute("SELECT * FROM 'Users' WHERE id = ?", (ID,)).fetchmany()[0]
+
     def add_point(self, name, description, location, type, photo, reward):
         with self.connection:
             try:
@@ -31,14 +34,18 @@ class Database:
             except:
                 print("Error deleting user with ID:", ID)
 
-    def get_user(self, ID):
-        return self.cursor.execute("SELECT * FROM 'Users' WHERE id = ?", (ID,)).fetchmany()[0]
-
     def get_point(self, ID):
         return self.cursor.execute("SELECT * FROM 'Points' WHERE id = ?", (ID,)).fetchmany()[0]
 
-    def get_points(self): #работает
+    def get_points(self):
         return self.cursor.execute("SELECT * FROM 'Points'").fetchmany(1000) #.execute() #fetchmany()
+
+    def update_point_status(self, ID, status):
+        with self.connection:
+            try:
+                self.cursor.execute("UPDATE 'Points' SET status = ? WHERE id = ?", (status, ID))
+            except:
+                ...
 
     # def client_exist(self, ID):
     #     with self.connection:
