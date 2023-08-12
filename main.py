@@ -24,6 +24,12 @@ async def get_user(user_id) -> User:
 async def get_points() -> list[Point]:
     return [Point(id=point[0], name=point[1], description=point[2], location=point[3], type=point[4], photo=point[5], reward=point[6], status=point[7]) for point in base.get_points()]
 
+@app.get("/points/{point_id}")
+async def get_point(point_id) -> Point:
+    point = base.get_point(point_id)
+    return Point(id=point[0], name=point[1], description=point[2], location=point[3], type=point[4], photo=point[5], reward=point[6], status=point[7])
+
+
 @app.post("/add_point/")
 def add_point(point: Point):
     try:
@@ -33,17 +39,12 @@ def add_point(point: Point):
         return {"message": "An error occurred while adding the point"}
 
 @app.post("/delete_point/")
-def add_point(point: Point):
+def delete_point(point: Point):
     try:
         base.delete_point(point.id)
         return {"message": "Point deleted successfully"}
     except:
         return {"message": "An error occurred while deleting the point"}
-
-@app.get("/points/{point_id}")
-async def get_point(point_id) -> Point:
-    point = base.get_point(point_id)
-    return Point(id=point[0], name=point[1], description=point[2], location=point[3], type=point[4], photo=point[5], reward=point[6], status=point[7])
 
 
 if __name__ == "__main__":
