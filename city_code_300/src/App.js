@@ -1,7 +1,7 @@
 import './App.css'
 import React, { useEffect, useState } from 'react'
 import { Map, Placemark, YMaps, Button } from '@pbe/react-yandex-maps'
-import { getAllPoints } from './shared/api/points'
+import { createPoint, getAllPoints } from './shared/api/points'
 import { Modal, Typography, Form, Input, Select } from 'antd'
 
 const { Text } = Typography
@@ -21,15 +21,15 @@ function App() {
   const getColor = (type) => {
     switch (type) {
       case 'Грязь и мусор':
-        return '#422121'
+        return '#E61717'
       case 'Свалка шин':
-        return '#120e0e'
+        return '#000000'
       case 'Разлив нефти':
-        return '#731d1d'
+        return '#6D0303 '
       case 'Переполненные контейнеры':
-        return '#153257'
+        return '#E61717'
       case 'Парковка на газонах':
-        return '#42701c'
+        return '#0E8A8A'
       case 'Несанкционированная торговля':
         return '#52472b'
       case 'Нарушение благоустройства':
@@ -72,8 +72,13 @@ function App() {
       </YMaps>
 
       <Modal 
-        onCancel={() => setShowModal(false)}
-        onOk={() => setShowModal(false)}
+        onCancel={() => {
+          setShowModal(false)
+        }}
+        onOk={() => {
+          form.submit()
+          setShowModal(false)
+        }}
         open={showModal}
       >
         <Text>
@@ -83,18 +88,24 @@ function App() {
         <Form 
           style={{ marginTop: '10px' }} 
           form={form} 
-          onFinish={(values) => console.log(values)}
+          onFinish={(values) => createPoint({
+            ...values,
+            status: 'Не просмотрено',
+          })}
         >
-          <Form.Item label='Изображение'>
+          <Form.Item label='Изображение' name='photo'>
             <Input placeholder='Вставьте ссылку на изображение' />
           </Form.Item>
-          <Form.Item label='Название'>
+          <Form.Item label='Название' name='name'>
             <Input placeholder='Название' />
           </Form.Item>
-          <Form.Item label='Описание'>
+          <Form.Item label='Описание' name='description'>
             <Input placeholder='Описание' />
           </Form.Item>
-          <Form.Item label='Категория'>
+          <Form.Item label='Награда' name='reward'>
+            <Input placeholder='Награда' />
+          </Form.Item>
+          <Form.Item label='Категория' name='type'>
             <Select 
               placeholder='Категория'
               options={[{
@@ -120,13 +131,9 @@ function App() {
                 value: 'Нарушение благоустройства'
               }]} />
           </Form.Item>
-          <Form.Item label='Адрес'>
-            <Input placeholder='Адрес' />
+          <Form.Item label='Координаты' name='location'>
+            <Input placeholder='Координаты' />
           </Form.Item>
-
-          <button type='submit'>
-              save
-          </button>
         </Form>
       </Modal>
     </div>
