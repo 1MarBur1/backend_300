@@ -17,26 +17,24 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 @dataclass
 class lexicon:
     #фразы
-    start = '<b>Приветствую!</b>\nВы попали в приложение, помогающее улучшать экологию Екатеринбурга.'
-    sorry = 'Извините, я вас не понимаю :('
+    start = '<b>Приветствую!♻</b>\n\nВы очень активный и ответственный человек, так как решили помогать нашему городу становиться чище и приятнее.\n\nСпасибо, что выбираете нас🤍'
+    sorry = 'Извините, я Вас не понимаю :(\n\nВы можете открыть приложение с помощью кнопки ниже🤍'
     # кнопки
     webapp_button = 'Открыть приложение'
 
+config: Config = load_config()
+
+bot: Bot = Bot(token=config.tg_bot.token,
+               parse_mode='HTML')
+base = Database(config.db.database)
+url = config.url
+
 #стартовая клавиатура
-app_btn = InlineKeyboardButton(text=lexicon.webapp_button, web_app=WebAppInfo(url='https://notbaryga.github.io/webapp/index.html'))
+app_btn = InlineKeyboardButton(text=lexicon.webapp_button, web_app=WebAppInfo(url=url))
 start_keyboard = InlineKeyboardBuilder().row(app_btn).as_markup()
 
 # Инициализируем логгер
 logger = logging.getLogger(__name__)
-
-# Загружаем конфиг в переменную config
-config: Config = load_config()
-
-# Инициализируем бот и диспетчер и бд
-bot: Bot = Bot(token=config.tg_bot.token,
-               parse_mode='HTML')
-base = Database(config.db.database)
-
 dp: Dispatcher = Dispatcher()
 
 @dp.message(CommandStart())
