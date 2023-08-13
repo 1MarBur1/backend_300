@@ -74,18 +74,18 @@ async def add_point(name, description, location, typee, photo, reward, status, c
 
 
 @app.post("/delete_point/")
-async def delete_point(point: Point):
+async def delete_point(id):
     try:
-        base.delete_point(point.id)
+        base.delete_point(id)
         return {"message": "Point deleted successfully"}
     except:
         return {"message": "An error occurred while deleting the point"}
 
 
 @app.post("/update_point_status/")
-async def update_point_status(point: Point, status: Status_type):
+async def update_point_status(id, status: Status_type):
     try:
-        base.update_point_status(point.id, status)
+        base.update_point_status(id, status)
         return {"message": "Point status updated successfully"}
     except:
         return {"message": "An error occurred while updating the point status"}
