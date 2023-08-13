@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from data.data import User, Point, Status_type, Event
 from data.database import Database
 from bot.bot import bot
@@ -9,6 +10,11 @@ import uvicorn
 config: Config = load_config()
 base = Database(config.db.database)
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*']
+)
 
 #юзеры
 
