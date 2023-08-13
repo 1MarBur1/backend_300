@@ -8,6 +8,8 @@ class Database:
         self.cursor = self.connection.cursor()
         print("The database is connected successfully")
 
+
+    #юзеры
     def add_user(self, ID, name):
         with self.connection:
             try:
@@ -18,12 +20,14 @@ class Database:
     def get_user(self, ID):
         return self.cursor.execute("SELECT * FROM 'Users' WHERE id = ?", (ID,)).fetchmany()[0]
 
-    def add_point(self, name, description, location, type, photo, reward):
+
+    #поинты
+    def add_point(self, name, description, location, type, photo, reward, creator_id):
         with self.connection:
             try:
                 self.cursor.execute(
-                    "INSERT INTO 'Points' (name, description, location, type, photo, reward) VALUES (?, ?, ?, ?, ?, ?)",
-                    (name, description, location, type, photo, reward))
+                    "INSERT INTO 'Points' (name, description, location, type, photo, reward, creator_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    (name, description, location, type, photo, reward, creator_id))
             except:
                 ...
 
@@ -32,7 +36,7 @@ class Database:
             try:
                 self.cursor.execute("DELETE FROM 'Points' WHERE id=?", (ID,))
             except:
-                print("Error deleting user with ID:", ID)
+                print("Error deleting point with ID:", ID)
 
     def get_point(self, ID):
         return self.cursor.execute("SELECT * FROM 'Points' WHERE id = ?", (ID,)).fetchmany()[0]
@@ -46,6 +50,33 @@ class Database:
                 self.cursor.execute("UPDATE 'Points' SET status = ? WHERE id = ?", (status, ID))
             except:
                 ...
+
+
+    #ивенты
+    def add_event(self, name, description, datetime, location, type, photo, reward):
+        with self.connection:
+            try:
+                self.cursor.execute(
+                    "INSERT INTO 'Events' (name, description, datetime, location, type, photo, reward) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    (name, description, datetime, location, type, photo, reward))
+            except:
+                ...
+
+    def delete_event(self, ID):
+        with self.connection:
+            try:
+                self.cursor.execute("DELETE FROM 'Events' WHERE id=?", (ID,))
+            except:
+                print("Error deleting event with ID:", ID)
+
+    def get_event(self, ID):
+        return self.cursor.execute("SELECT * FROM 'Events' WHERE id = ?", (ID,)).fetchmany()[0]
+
+    def get_events(self):
+        return self.cursor.execute("SELECT * FROM 'Events'").fetchmany(1000) #.execute() #fetchmany()
+
+
+
 
     # def client_exist(self, ID):
     #     with self.connection:

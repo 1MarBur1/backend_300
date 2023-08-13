@@ -30,18 +30,30 @@ class Point(BaseModel):
     photo: str
     reward: int
     status: Status_type
-    # organization: str|None
+    creator_id: int
+    # organization: str|None - будет добавлено позже при получении доступа к API реестровой карты
+
+class Event_type(Enum):
+    swap = 'Своп'
+    cleaning_day = 'Субботник'
+    lecture = 'Лекция'
+    festivales = 'Фестивали'
+    master_classes = 'Мастер-классы'
+    kvesti = 'Квесты'
+    actions = 'Экологические акции'
+    other = 'Другое'
 
 
 class Event(BaseModel):
     id: int
     name: str
     description: str
+    datetime: datetime
     location: str
-    type: Point_type
+    type: Event_type
     photo: str
     reward: int
-    status: Status_type
+
 
 class User(BaseModel):
     id: int
