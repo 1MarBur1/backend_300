@@ -22,7 +22,7 @@ class Status_type(Enum):
 
 
 class Point(BaseModel):
-    id: int
+    #id: int
     name: str
     description: str
     location: str

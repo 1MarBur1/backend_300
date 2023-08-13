@@ -25,12 +25,12 @@ class Database:
             return None
 
     #поинты
-    def add_point(self, name, description, location, type, photo, reward, creator_id):
+    def add_point(self, name, description, location, type, photo, reward, status, creator_id):
         with self.connection:
             try:
                 self.cursor.execute(
-                    "INSERT INTO 'Points' (name, description, location, type, photo, reward, creator_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                    (name, description, location, type, photo, reward, creator_id))
+                    "INSERT INTO 'Points' (name, description, location, type, photo, reward, status, creator_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    (name, description, location, type, photo, reward, status, creator_id))
             except:
                 ...
 

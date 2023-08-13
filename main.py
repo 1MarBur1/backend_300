@@ -57,13 +57,20 @@ async def get_point(point_id) -> Point:
                  reward=point[6], status=point[7], creator_id=point[8])
 
 
+# @app.post("/add_point/")
+# async def add_point(point: Point):
+#     # base.add_point(point.name, point.description, point.location, point.type, point.photo, point.reward, point.status,
+#     #                point.creator_id)
+
+    #base.add_point('name', 'dd', 'loc', 'Грязь и мусор', 'fjvnv', 5, 'Решено',12345)
+   # #     return {"message": "Point added successfully"}
+    # except:
+    #     return {"message": "An error occurred while adding the point"}
+
 @app.post("/add_point/")
-async def add_point(point: Point):
-    try:
-        base.add_point(point.name, point.description, point.location, point.type, point.photo, point.reward)
-        return {"message": "Point added successfully"}
-    except:
-        return {"message": "An error occurred while adding the point"}
+async def add_point(name, description, location, typee, photo, reward, status, creator_id):
+    base.add_point(name, description, location, typee, photo, reward, status, creator_id)
+    return {"message": "Point deleted successfully"}
 
 
 @app.post("/delete_point/")
@@ -119,4 +126,5 @@ async def delete_event(event: Event):
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
     #print(base.get_point(1))
+    #base.add_point('name', 'dd', 'loc', 'Грязь и мусор', 'fjvnv', 5, 'Решено',12345)
 
