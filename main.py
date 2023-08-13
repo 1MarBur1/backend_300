@@ -75,10 +75,7 @@ async def update_point_status(point: Point, status: Status_type):
         return {"message": "An error occurred while updating the point status"}
 
 
-
-    # ////ивенты
-
-
+#ивенты
 @app.get('/events')  # работает
 async def get_events() -> list[Event]:
     return [Event(id=event[0], name=event[1], description=event[2], datetime=event[3], location=event[4], type=event[5],
@@ -111,8 +108,5 @@ async def delete_event(event: Event):
 
 
 if __name__ == "__main__":
-    #uvicorn.run(app, host="0.0.0.0", port=8000)
-    # print(base.get_user(3))
-    # base.update_point_status(4, 'В процессе')
-    # ...
-    base.get_user(6)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+
