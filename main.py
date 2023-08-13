@@ -38,14 +38,14 @@ async def send_message(user_id: int, message: str):
 @app.get('/points')
 async def get_points() -> list[Point]:
     return [Point(id=point[0], name=point[1], description=point[2], location=point[3], type=point[4], photo=point[5],
-                  reward=point[6], status=point[7]) for point in base.get_points()]
+                  reward=point[6], status=point[7], creator_id=point[8]) for point in base.get_points()]
 
 
 @app.get("/points/{point_id}")
 async def get_point(point_id) -> Point:
     point = base.get_point(point_id)
     return Point(id=point[0], name=point[1], description=point[2], location=point[3], type=point[4], photo=point[5],
-                 reward=point[6], status=point[7])
+                 reward=point[6], status=point[7], creator_id=point[8])
 
 
 @app.post("/add_point/")
@@ -109,4 +109,5 @@ async def delete_event(event: Event):
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
+    #print(base.get_point(1))
 
