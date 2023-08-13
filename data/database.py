@@ -11,15 +11,18 @@ class Database:
 
     #юзеры
     def add_user(self, ID, name):
-        with self.connection:
-            try:
-                self.cursor.execute("INSERT INTO 'Users' VALUES (?, ?)", (ID, name))
-            except:
-                ...
+        if self.get_user(ID) is None:
+            with self.connection:
+                try:
+                    self.cursor.execute("INSERT INTO 'Users' (id, name) VALUES (?, ?)", (ID, name))
+                except:
+                    self.cursor.execute("INSERT INTO 'Users' (id, name) VALUES (?, ?)", (ID, 'Пользователь'))
 
     def get_user(self, ID):
-        return self.cursor.execute("SELECT * FROM 'Users' WHERE id = ?", (ID,)).fetchmany()[0]
-
+        try:
+            return self.cursor.execute("SELECT * FROM 'Users' WHERE id = ?", (ID,)).fetchmany()[0]
+        except:
+            return None
 
     #поинты
     def add_point(self, name, description, location, type, photo, reward, creator_id):

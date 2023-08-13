@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from data.data import User, Point, Status_type, Event
 from data.database import Database
-#from bot.bot import bot
+from bot.bot import bot
 from config import Config, load_config
 from utils import get_user_points_level, get_user_appeals_level, get_user_cleaning_days_level, get_user_swaps
 import uvicorn
@@ -23,13 +23,14 @@ async def get_user(user_id: int) -> User:
                 level_appeals=level_appeals, residue_appeals=residue_appeals, level_cleaning_days=level_cleaning_days,
                 residue_cleaning_days=residue_cleaning_days, level_swaps=level_swaps, residue_swaps=residue_swaps)
 
-# @app.post("/users/{user_id}/send_message")
-# async def send_message(user_id: int, message: str):
-#     try:
-#         await bot.send_message(chat_id=user_id, text=message)
-#         return {"message": "Event deleted successfully"}
-#     except:
-#         return {"message": "An error occurred while deleting the event"}
+@app.post("/users/{user_id}/send_message")
+async def send_message(user_id: int, message: str):
+    try:
+        message = 'Здрасьте, вам на объяву ответили)\n'+message
+        await bot.send_message(chat_id=user_id, text=message)
+        return {"message": "Event deleted successfully"}
+    except:
+        return {"message": "An error occurred while deleting the event"}
 
 
 #поинты
@@ -110,7 +111,8 @@ async def delete_event(event: Event):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    #uvicorn.run(app, host="0.0.0.0", port=8000)
     # print(base.get_user(3))
     # base.update_point_status(4, 'В процессе')
     # ...
+    base.get_user(6)
