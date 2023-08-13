@@ -2,21 +2,30 @@ import './App.css'
 import React, { useEffect, useState } from 'react'
 import { Map, Placemark, YMaps, Button } from '@pbe/react-yandex-maps'
 import { createPoint, getAllPoints } from './shared/api/points'
-import { Modal, Typography, Form, Input, Select } from 'antd'
+import { Modal, Typography, Form, Input, Select, InputNumber, Switch, Row, Space, Col } from 'antd'
 
 const { Text } = Typography
 
 function App() {
   const [allPoints, setAllPoints] = useState([])
   const [showModal, setShowModal] = useState(false)
-
+  const [showModalFilters, setShowModalFilters] = useState(false)
+  const types = ['Грязь и мусор', 'Свалка шин', 'Разлив нефти', 'Переполненные контейнеры', 'Парковка на газонах', 'Несанкционированная торговля', 'Нарушение благоустройства']
+ 
+  const [filters, setFilters] = useState(types)
+  
   const [form] = Form.useForm();
+
 
   useEffect(() => {
     getAllPoints().then((data) => {
       setAllPoints(data)
     })
   }, [])
+
+  useEffect(() => {
+    console.log(filters)
+  }, [filters])
 
   const getColor = (type) => {
     switch (type) {
@@ -47,9 +56,16 @@ function App() {
             <Button
               options={{ maxWidth: 128, selectOnClick: false }}
               onClick={() => setShowModal(true)}
-              data={{ content: "Создать метку" }}
-            />
-            {allPoints?.map((item) => (
+              data={{ content: "Создать метку" }} />
+            <Button
+              options={{ maxWidth: 128, selectOnClick: false }}
+              onClick={() => setShowModalFilters(true)}
+              data={{ content: "Фильтры" }} />
+            <Button
+              options={{ maxWidth: 128, selectOnClick: false, position: {right: 10, top: 10} }}
+              data={{ content: "Профиль" }} />
+
+            {allPoints?.filter(item => filters.includes(item.type)).map((item) => (
               <Placemark 
                 modules={["geoObject.addon.balloon"]}
                 defaultGeometry={item.location.split(', ')} 
@@ -91,6 +107,7 @@ function App() {
           onFinish={(values) => createPoint({
             ...values,
             status: 'Не просмотрено',
+            creator_id: 0,
           })}
         >
           <Form.Item label='Изображение' name='photo'>
@@ -100,41 +117,53 @@ function App() {
             <Input placeholder='Название' />
           </Form.Item>
           <Form.Item label='Описание' name='description'>
-            <Input placeholder='Описание' />
+            <Input placeholder='Описание' width='100%' />
           </Form.Item>
           <Form.Item label='Награда' name='reward'>
-            <Input placeholder='Награда' />
+            <InputNumber placeholder='Награда' />
           </Form.Item>
-          <Form.Item label='Категория' name='type'>
+          <Form.Item label='Категория' name='typee'>
             <Select 
               placeholder='Категория'
-              options={[{
-                label: 'Грязь и мусор',
-                value: 'Грязь и мусор'
-              }, {
-                label: 'Свалка шин',
-                value: 'Свалка шин'
-              }, {
-                label: 'Разлив нефти',
-                value: 'Разлив нефти'
-              }, {
-                label: 'Переполненные контейнеры',
-                value: 'Переполненные контейнеры'
-              }, {
-                label: 'Парковка на газонах',
-                value: 'Парковка на газонах'
-              }, {
-                label: 'Несанкционированная торговля',
-                value: 'Несанкционированная торговля'
-              }, {
-                label: 'Нарушение благоустройства',
-                value: 'Нарушение благоустройства'
-              }]} />
+              options={types.map((item) => ({
+                value: item,
+                label: item,
+              }))} />
           </Form.Item>
           <Form.Item label='Координаты' name='location'>
             <Input placeholder='Координаты' />
           </Form.Item>
         </Form>
+      </Modal>
+
+      <Modal 
+        onCancel={() => {
+          setShowModalFilters(false)
+        }}
+        onOk={() => {
+          form.submit()
+          setShowModalFilters(false)
+        }}
+        open={showModalFilters}
+      >
+        <Space>
+          <Col>
+            <Text>
+              Фильтры
+            </Text>
+            {types.map(item => (
+              <Row>
+                <Text>
+                  {item}
+                </Text>
+                <Switch defaultChecked onChange={(checked) => setFilters(prevFilters => {
+                  if (checked) return prevFilters.concat(item)
+                  else return prevFilters.filter(value => value !== item)
+                })} />    
+              </Row>
+            ))}
+          </Col>
+        </Space>
       </Modal>
     </div>
   )

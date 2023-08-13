@@ -9,7 +9,9 @@ const getAllPoints = async () => {
 } 
 
 const createPoint = async (createData) => {
-    const response = await axios.post('http://127.0.0.1:8000/add_point/', createData)
+    const response = await axios.post('http://127.0.0.1:8000/add_point/', null, {
+        params: createData,
+    })
 
     const data = await response.data
     
