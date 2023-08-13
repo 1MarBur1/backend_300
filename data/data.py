@@ -12,7 +12,7 @@ class Point_type(Enum):
     petrol = 'Разлив нефти'
     blawn = 'Парковка на газонах'
     commerce = 'Несанкционированная торговля'
-    improvement = 'Нарушение благоустройства'
+    #improvement = 'Нарушение благоустройства'
 
 
 class Status_type(Enum):

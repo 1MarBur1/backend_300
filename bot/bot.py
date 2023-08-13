@@ -41,7 +41,7 @@ dp: Dispatcher = Dispatcher()
 
 @dp.message(CommandStart())
 async def start_answer(message: Message):
-    base.add_user(message.from_user.id, message.from_user)
+    base.add_user(message.from_user.id, message.from_user.first_name)
     await message.answer(text=lexicon.start, reply_markup=start_keyboard)
 
 @dp.message()

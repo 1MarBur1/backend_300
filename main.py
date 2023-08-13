@@ -26,7 +26,7 @@ async def get_user(user_id: int) -> User:
 @app.post("/users/{user_id}/send_message")
 async def send_message(user_id: int, message: str):
     try:
-        message = 'Здрасьте, вам на объяву ответили)\n'+message
+        message = 'У Вас новый ответ на обращение\n'+message
         await bot.send_message(chat_id=user_id, text=message)
         return {"message": "Event deleted successfully"}
     except:
